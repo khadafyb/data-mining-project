@@ -1,6 +1,9 @@
 import os
 import _pickle as pickle
+##from __future__ import print_function
+from nltk.stem import SnowballStemmer
 
+stemmer = SnowballStemmer("english")
 
 class_definition_file={
             "comp.graphics":0,
@@ -37,9 +40,12 @@ folder= "C:/Users/hanfs/Desktop/data-mining-project/mini_newsgroups"
 filepaths = [folder+'/'+name for name in os.listdir(folder)]
 all_files=[]
 
+feature_definition={}
+fdc =0 #feature definition counter for the feature-id
+
 
 # initializing punctuations string  
-punc = '''!()-[]{};:'"\, <>./?@#|$%^&*_~'''
+punc = '''!()-[]{};:'"\, <>./=?@#|$%^&*_~'''
 
 nltk=["i", "me", "my", "myself", "we", "our", "ours", "ourselves", "you", "your", "yours", "yourself", "yourselves", "he", "him", "his", "himself", "she", "her", "hers", "herself", "it", "its", "itself", "they", "them", "their", "theirs", "themselves", "what", "which", "who", "whom", "this", "that", "these", "those", "am", "is", "are", "was", "were", "be", "been", "being", "have", "has", "had", "having", "do", "does", "did", "doing", "a", "an", "the", "and", "but", "if", "or", "because", "as", "until", "while", "of", "at", "by", "for", "with", "about", "against", "between", "into", "through", "during", "before", "after", "above", "below", "to", "from", "up", "down", "in", "out", "on", "off", "over", "under", "again", "further", "then", "once", "here", "there", "when", "where", "why", "how", "all", "any", "both", "each", "few", "more", "most", "other", "some", "such", "no", "nor", "not", "only", "own", "same", "so", "than", "too", "very", "s", "t", "can", "will", "just", "don", "should", "now"]
 
@@ -61,6 +67,7 @@ for i in filepaths:
                     else:
                         words = words + element
                 word = words.rstrip("\n")
+                word = word.rstrip("\t")
                 word = word.lower()
                 word = word.split(" ")
 
@@ -74,10 +81,23 @@ for i in filepaths:
                             if element == a:
                                 word.remove(element)
                     i = i+1
+                #print(word)
+                for element in word:
+                    testing=stemmer.stem(element)
+                    if testing in feature_definition:
+                        pass
+                    else:
+                        feature_definition[testing]=fdc
+                        fdc = fdc+1
                 
                 #now that all blanks within the list are removed we need to stem, then after stemming we then create the bag of words
-                    
-                print(word)
+                        
+f = open("feature_definition_file", "w")
+data=str(feature_definition)
+f.write(data[1:len(data)-1])
+
+f.close()                    
+        
 
                 
                 
