@@ -37,7 +37,6 @@ folder= "C:/Users/hanfs/Desktop/data-mining-project/mini_newsgroups"
 filepaths = [folder+'/'+name for name in os.listdir(folder)]
 all_files=[]
 
-ic=0 #index counter
 
 # initializing punctuations string  
 punc = '''!()-[]{};:'"\, <>./?@#|$%^&*_~'''
@@ -60,23 +59,22 @@ for i in filepaths:
                     if element in punc:
                        words = words + " "
                     else:
-                        words = words + char
+                        words = words + element
                 word = words.rstrip("\n")
+                word = word.lower()
                 word = word.split(" ")
 
-                #after spliting at spaces we are running both of these loops to remove empty lists within the larger list (which is the line)
-                ic=0
-                for element in word:
-                    if element == '':
-                        del word[ic]
-                    ic = ic+1
-
-                ic=0
-                for element in word:
-                    if element == '':
-                        del word[ic]
-                    ic = ic +1
-                    
+                #after spliting at spaces we are running both of these loops to remove empty lists within the larger list (which is the line) and the stop words but for some reason it has to be done multiple times
+                i=0
+                while i<10:
+                    for element in word:
+                        if element == '':
+                            word.remove(element)
+                        for a in nltk:
+                            if element == a:
+                                word.remove(element)
+                    i = i+1
+                
                 #now that all blanks within the list are removed we need to stem, then after stemming we then create the bag of words
                     
                 print(word)
