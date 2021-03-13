@@ -1,21 +1,5 @@
 import os
 import _pickle as pickle
-##file = open(r"C:\Users\khada\Desktop\mini_newsgroups\alt.atheism\51121", "rt")
-##data = file.read()
-##words=data.split()
-
-##print("number of words is : ",len(words))
-#names= [ ]
-##def listdirs(rootdir):
-##    for file in os.listdir(rootdir):
-##        d = os.path.join(rootdir,file)
-##        if os.path.isdir(d):
-##            names.append(d)
-##
-##
-##rootdir=r"C:\Users\khada\Desktop\mini_newsgroups"
-##listdirs(rootdir)
-##print(*names,sep="\n")
 
 
 class_definition_file={
@@ -45,10 +29,6 @@ data=str(class_definition_file)
 f.write(data[1:len(data)-1])
 
 f.close()
-#f=open("class_definition_file","r")
-#print(f.read())
-#f.close()
-
 
 
 folderpath=r"D:\my_data"
@@ -71,31 +51,37 @@ for i in filepaths:
     for path in morepaths:
         with open(path, 'r') as f:
             file = f.readlines()
+            #we are now exploring lines within the file
             for line in file:
 
                 words = ""
-                for char in line:
-                    if char in punc:
+                #checking each word in the line and we are creating a string that removes the punctuation
+                for element in line:
+                    if element in punc:
                        words = words + " "
                     else:
                         words = words + char
                 word = words.rstrip("\n")
                 word = word.split(" ")
 
-                #trying to strip the nltk list from the list words, remember that when using split it creates an array of remainings of the split
-                #for i in word:
-                #    i.strip(nltk)
-                #word=word.strip(nltk)
-                
+                #after spliting at spaces we are running both of these loops to remove empty lists within the larger list (which is the line)
+                ic=0
+                for element in word:
+                    if element == '':
+                        del word[ic]
+                    ic = ic+1
+
+                ic=0
+                for element in word:
+                    if element == '':
+                        del word[ic]
+                    ic = ic +1
+                    
+                #now that all blanks within the list are removed we need to stem, then after stemming we then create the bag of words
+                    
                 print(word)
 
-
-                #once the words are properly seperated then add them to the bag of words assigning their id number
-
                 
                 
-#now we can create that bag of words and check for words as well, do the split here
-#print the dictionary created on one single document
-##we need to find a way to create the training documents
 
 print("done")
