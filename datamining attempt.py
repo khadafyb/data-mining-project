@@ -2,7 +2,7 @@ import os
 import _pickle as pickle
 ##from __future__ import print_function
 import numpy as np
-from scipy.sparse import csr_matrix
+import pandas as pd
 from nltk.stem import SnowballStemmer
 ##from sklearn.feature_extraction import DictVectorizer
 ##from nltk.text import TextCollection  ##-- import for vectorize method
@@ -16,11 +16,23 @@ stemmer = SnowballStemmer("english")
 def vectorize(file):
     vectorizer = TfidfVectorizer()
     X=vectorizer.fit_transform(file)
-    s=np.matrix(X)
-    q=csr_matrix(s)
-    A=q.todense()
-    print(A.all())
+    features=vectorizer.get_feature_names()
+    doc=0
+    feature_index=X[doc,:].nonzero()[1]
+    tfidf_score=zip(feature_index,[X[doc,q] for q in feature_index])
+    for w,s in[(features[i],s) for (i,s) in tfidf_score]:
+         print(w,s)
          
+def vectorizer2(file):
+     ##https://www.bogotobogo.com/python/NLTK/tf_idf_with_scikit-learn_NLTK.php
+     vectorize=TfidfVectorizer()
+     tfs=vectorize.fit_transform(file)
+     features=vectorize.get_feature_names()
+     file_index=[n for n in file]
+     df=pd.DataFrame(tfs.T.todense(),index=features,columns=file_index)
+     print(df)
+     
+     
 class_definition_file={
             "comp.graphics":0,
             "comp.os.ms-windows.misc":0,
@@ -70,11 +82,12 @@ nltk=["i", "me", "my", "myself", "we", "our", "ours", "ourselves", "you", "your"
 for i in filepaths:
     morepaths = [os.path.join(i, name) for name in os.listdir(i)]
 
-    vectorize(morepaths)
     #we should look to see when i is equal to the above directory to then print it's ID number onto the tidy files
     for path in morepaths:
         with open(path, 'r') as f:
             file = f.readlines()
+            ##placing vectorize method to create tfidf's seems best placed here but unsure where to place it
+            vectorizer2(file)
             #we are now exploring lines within the file
             for line in file:
 
@@ -103,6 +116,9 @@ for i in filepaths:
                 #print(word)
                 for element in word:
                     testing=stemmer.stem(element)
+                    ##creates a list out of the stemmed string in order to vectorize
+##                    testing=[testing]
+##                    vectorize(testing)
                     if testing in feature_definition:
                         pass
                     else:
