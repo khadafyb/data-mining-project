@@ -1,10 +1,26 @@
 import os
 import _pickle as pickle
 ##from __future__ import print_function
+import numpy as np
+from scipy.sparse import csr_matrix
 from nltk.stem import SnowballStemmer
+##from sklearn.feature_extraction import DictVectorizer
+##from nltk.text import TextCollection  ##-- import for vectorize method
+##from sklearn feature_extraction.text import CountVectorizer
+from sklearn.feature_extraction.text import TfidfVectorizer
+
 
 stemmer = SnowballStemmer("english")
-
+##vec= DictVectorizer()
+##creates sparse matrix of document:term<tfidf> 
+def vectorize(file):
+    vectorizer = TfidfVectorizer()
+    X=vectorizer.fit_transform(file)
+    s=np.matrix(X)
+    q=csr_matrix(s)
+    A=q.todense()
+    print(A.all())
+         
 class_definition_file={
             "comp.graphics":0,
             "comp.os.ms-windows.misc":0,
@@ -35,7 +51,8 @@ f.close()
 
 
 folderpath=r"D:\my_data"
-folder= "C:/Users/hanfs/Desktop/data-mining-project/mini_newsgroups"
+folder="C:/Users/khada/Desktop/data-mining-project/mini_newsgroups"
+folder2= "C:/Users/hanfs/Desktop/data-mining-project/mini_newsgroups"
 
 filepaths = [folder+'/'+name for name in os.listdir(folder)]
 all_files=[]
@@ -52,6 +69,8 @@ nltk=["i", "me", "my", "myself", "we", "our", "ours", "ourselves", "you", "your"
 #this whole loop allows us to open each folder within the larger directory, and then to create dictionaries for each
 for i in filepaths:
     morepaths = [os.path.join(i, name) for name in os.listdir(i)]
+
+    vectorize(morepaths)
     #we should look to see when i is equal to the above directory to then print it's ID number onto the tidy files
     for path in morepaths:
         with open(path, 'r') as f:
@@ -94,12 +113,41 @@ for i in filepaths:
                         
 f = open("feature_definition_file", "w")
 data=str(feature_definition)
+
+##refernce documetation : https://scikit-learn.org/stable/tutorial/text_analytics/working_with_text_data.html
+##data=str(vec.fit_transform(feature_definition).toarray())
+##feature_name=vec.get_feature_names()
+##print("feature names: " + str(feature_name))
 f.write(data[1:len(data)-1])
 
 f.close()                    
-        
+       
 
                 
                 
 
 print("done")
+
+##https://www.oreilly.com/library/view/applied-text-analysis/9781491963036/ch04.html
+#method to compute tf-idf takes all documents and tokenizes, goes through each document and returns {term: tf-idf} for each term in each document
+## def vectorize(file):
+##     file=[tokenize(doc) for doc in file]
+##     texts = TextCollection(file)
+##
+##     for doc in file:
+##         yield {
+##             term: texts.tf_idf(term,doc)
+##             for term in doc
+##         }
+
+##print(vectorize(morepath))
+#method to get vectorized documentation for machine learning 
+##takes in a string representation to a list of files 
+##docfolder should be a string representation to a folder containing files
+##https://scikit-learn.org/stable/modules/generated/sklearn.feature_extraction.text.CountVectorizer.html
+# def machinevector(docfolder):
+#     text=os.listdir(docfolder)
+#     vectorizer = CountVectorizer()
+#     vectorizer.fit(text)
+#     vector=vectorizer.transform(text)
+#     return(vector.toarray())
