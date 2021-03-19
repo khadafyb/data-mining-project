@@ -1,17 +1,17 @@
 import os
 import _pickle as pickle
-##from __future__ import print_function
+####from __future__ import print_function
 import numpy as np
-import pandas as pd
+####import pandas as pd
 from nltk.stem import SnowballStemmer
-##from sklearn.feature_extraction import DictVectorizer
-##from nltk.text import TextCollection  ##-- import for vectorize method
-##from sklearn feature_extraction.text import CountVectorizer
+from sklearn.feature_extraction import DictVectorizer
+####from nltk.text import TextCollection  ##-- import for vectorize method
+####from sklearn feature_extraction.text import CountVectorizer
 from sklearn.feature_extraction.text import TfidfVectorizer
 
 
 stemmer = SnowballStemmer("english")
-##vec= DictVectorizer()
+vec= DictVectorizer()
 ##creates sparse matrix of document:term<tfidf> 
 def vectorize(file):
     vectorizer = TfidfVectorizer()
@@ -21,17 +21,20 @@ def vectorize(file):
     feature_index=X[doc,:].nonzero()[1]
     tfidf_score=zip(feature_index,[X[doc,q] for q in feature_index])
     for w,s in[(features[i],s) for (i,s) in tfidf_score]:
-         print(w,s)
+         return w,s
          
-def vectorizer2(file):
+def vectorizer2(file,inputdoc):
+     ##print it but just really weird unsure 
      ##https://www.bogotobogo.com/python/NLTK/tf_idf_with_scikit-learn_NLTK.php
      vectorize=TfidfVectorizer()
      tfs=vectorize.fit_transform(file)
-     features=vectorize.get_feature_names()
-     file_index=[n for n in file]
-     df=pd.DataFrame(tfs.T.todense(),index=features,columns=file_index)
-     print(df)
-     
+     ##inputdoc.write(str(tfs))
+     return tfs
+##     features=vectorize.get_feature_names()
+##     file_index=[n for n in file]
+##     df=pd.DataFrame(tfs.T.todense(),index=features,columns=file_index)
+##     print(df)
+##     
      
 class_definition_file={
             "comp.graphics":0,
@@ -87,7 +90,7 @@ for i in filepaths:
         with open(path, 'r') as f:
             file = f.readlines()
             ##placing vectorize method to create tfidf's seems best placed here but unsure where to place it
-            vectorizer2(file)
+            X,y=vectorize(file)
             #we are now exploring lines within the file
             for line in file:
 
@@ -125,8 +128,7 @@ for i in filepaths:
                         feature_definition[testing]=fdc
                         fdc = fdc+1
                 
-                #now that all blanks within the list are removed we need to stem, then after stemming we then create the bag of words
-                        
+                #now that all blanks within the list are removed we need to stem, then after stemming we then create the bag of words                    
 f = open("feature_definition_file", "w")
 data=str(feature_definition)
 
@@ -136,13 +138,21 @@ data=str(feature_definition)
 ##print("feature names: " + str(feature_name))
 f.write(data[1:len(data)-1])
 
-f.close()                    
-       
+f.close()                       
 
                 
                 
-
+q="C:/Users/khada/Desktop/data-mining-project/outfile.txt"
 print("done")
+##q = open("check file_file", "w")
+from sklearn.naive_bayes import MultinomialNB
+from sklearn.datasets import load_svmlight_file
+clf=MultinomialNB()
+
+##features_vectorst,targets=load_svmlight_file("C:/Users/khada/Desktop/data-mining-project/check file_file.txt")
+features_vectorst,targets=load_svmlight_file(X,True,True)
+##q.close()
+print("done 2")
 
 ##https://www.oreilly.com/library/view/applied-text-analysis/9781491963036/ch04.html
 #method to compute tf-idf takes all documents and tokenizes, goes through each document and returns {term: tf-idf} for each term in each document
