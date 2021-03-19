@@ -160,6 +160,7 @@ for subdir in filepaths: ##i is the subdirectories, the folders within the folde
 ##Do this part here
 termdict = {}
 termdocfreq = {}
+print(alldocs[1])
 for i in alldocs:
     #print(i[1]) this gets the data I need and am looking for [name, term-freq]
 
@@ -260,7 +261,7 @@ for doc in alldocs:
         z=x*y
         tf = tf +" "+ str(termdict[term])+":"+ str(x) #get the value at term
         idf = idf +" "+ str(termdict[term])+":" + str(y)
-        tfidf = tfidf + " " + str(termdict[term])+": "+ str(z)
+        tfidf = tfidf + " " + str(termdict[term])+":"+ str(z)
     #print(tf) #we finally generated the file, make sure we write this string down
     f1.write(tf+ '\n')
     f2.write(idf + '\n')
