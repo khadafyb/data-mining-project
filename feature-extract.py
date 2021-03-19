@@ -160,14 +160,14 @@ for subdir in filepaths: ##i is the subdirectories, the folders within the folde
 ##Do this part here
 termdict = {}
 termdocfreq = {}
-print(alldocs[1])
-for i in alldocs:
+#print(alldocs[1])
+for doc in alldocs:
     #print(i[1]) this gets the data I need and am looking for [name, term-freq]
 
-    termlist = i[1].keys()    
+    #termlist = pairing[1].keys()
 
-    for term in termlist:
-        #print(term) We have the term!!
+    for term in doc[1]:
+        #print(term)
         if term not in termdict:
             termdict[term]=0
         if term not in termdocfreq:
@@ -239,9 +239,11 @@ class_dict={
 
 ##Do this part here Made 3 of the 4 training data information, So I won't do all the task 2 and 3 stuff
 #print(class_dict)
+#print(len(alldocs))
 f1 = open("training_data_file.TF.txt", "w")
 f2 = open("training_data_file.IDF.txt", "w")
 f3 = open("training_data_file.TFIDF.txt", "w")
+f4 = open("training_data_file.Boolean.txt","w")
 #print(termfreq)
 for doc in alldocs:
     #print(doc)
@@ -251,6 +253,7 @@ for doc in alldocs:
     tf = str(class_id)
     idf = str(class_id)
     tfidf = str(class_id)
+    boolean = str(class_id)
     #termlist = i[1].keys()
     #print(doc[1])
     #print(len(doc[1]))
@@ -262,14 +265,19 @@ for doc in alldocs:
         tf = tf +" "+ str(termdict[term])+":"+ str(x) #get the value at term
         idf = idf +" "+ str(termdict[term])+":" + str(y)
         tfidf = tfidf + " " + str(termdict[term])+":"+ str(z)
+        
+        boolean = boolean + " " + str(termdict[term])+":1"
+        
     #print(tf) #we finally generated the file, make sure we write this string down
     f1.write(tf+ '\n')
     f2.write(idf + '\n')
     f3.write(tfidf + '\n')
+    f4.write(boolean + '\n')
 
 f1.close()
 f2.close()
 f3.close()
+f4.close()
         
 
 ####

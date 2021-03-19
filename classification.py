@@ -71,3 +71,23 @@ clf = SVC()
 scores = cross_val_score(clf, feature_vectors, targets, cv=5, scoring='f1_macro')
 print("Accuracy: %0.2f (+/- %0.2f)" % (scores.mean(), scores.std() * 2))
 
+####
+
+folder="C:/Users/hanfs/Desktop/data-mining-project/training_data_file.Boolean.txt"
+print("Boolean Data") #not able to convert the data
+feature_vectors, targets = svmlight(folder)
+clf=MNB()
+scores = cross_val_score(clf, feature_vectors, targets, cv=5, scoring='f1_macro')
+print("Accuracy: %0.2f (+/- %0.2f)" % (scores.mean(), scores.std() * 2))
+
+clf=BNB()
+scores = cross_val_score(clf, feature_vectors, targets, cv=5, scoring='f1_macro')
+print("Accuracy: %0.2f (+/- %0.2f)" % (scores.mean(), scores.std() * 2))
+
+clf= KNeighborsClassifier()
+scores = cross_val_score(clf, feature_vectors, targets, cv=5, scoring='f1_macro')
+print("Accuracy: %0.2f (+/- %0.2f)" % (scores.mean(), scores.std() * 2))
+
+clf = SVC()
+scores = cross_val_score(clf, feature_vectors, targets, cv=5, scoring='f1_macro')
+print("Accuracy: %0.2f (+/- %0.2f)" % (scores.mean(), scores.std() * 2))
