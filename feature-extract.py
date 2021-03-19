@@ -253,7 +253,8 @@ for doc in alldocs:
     #termlist = i[1].keys()
     #print(doc[1])
     #print(len(doc[1]))
-    for term in doc[1]:
+    sortdoc=sorted(doc[1])
+    for term in sortdoc:
         x=(doc[1][term]/len(doc[1]))
         y=( math.log( (len(alldocs) / termdocfreq[term]) , 10))
         z=x*y

@@ -47,4 +47,6 @@ print("Accuracy: %0.2f (+/- %0.2f)" % (scores.mean(), scores.std() * 2))
 
 ###Use Classifier
 
+###Now make the rest of the files data but this does now work
+
 
