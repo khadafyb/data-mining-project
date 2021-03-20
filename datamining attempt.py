@@ -23,7 +23,7 @@ def vectorize(file):
     for w,s in[(features[i],s) for (i,s) in tfidf_score]:
          return w,s
          
-def vectorizer2(file,inputdoc):
+def vectorizer2(file):
      ##print it but just really weird unsure 
      ##https://www.bogotobogo.com/python/NLTK/tf_idf_with_scikit-learn_NLTK.php
      vectorize=TfidfVectorizer()
@@ -90,7 +90,8 @@ for i in filepaths:
         with open(path, 'r') as f:
             file = f.readlines()
             ##placing vectorize method to create tfidf's seems best placed here but unsure where to place it
-            X,y=vectorize(file)
+            w,s=vectorize(file)
+            
             #we are now exploring lines within the file
             for line in file:
 
@@ -141,16 +142,16 @@ f.write(data[1:len(data)-1])
 f.close()                       
 
                 
-                
+from sklearn.datasets import dump_svmlight_file                
 q="C:/Users/khada/Desktop/data-mining-project/outfile.txt"
+dump_svmlight_file(w,s,q)
 print("done")
 ##q = open("check file_file", "w")
 from sklearn.naive_bayes import MultinomialNB
 from sklearn.datasets import load_svmlight_file
 clf=MultinomialNB()
-
 ##features_vectorst,targets=load_svmlight_file("C:/Users/khada/Desktop/data-mining-project/check file_file.txt")
-features_vectorst,targets=load_svmlight_file(X,True,True)
+features_vectorst,targets=load_svmlight_file(q,True,True)
 ##q.close()
 print("done 2")
 
