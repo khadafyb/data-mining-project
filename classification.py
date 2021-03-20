@@ -1,3 +1,7 @@
+#Hannibal Santiago
+#Khadfy Bilal
+#Data Mining Project 1
+
 from sklearn.datasets import load_svmlight_file as svmlight
 from sklearn.model_selection import cross_val_score
 from sklearn.naive_bayes import MultinomialNB as MNB, BernoulliNB as BNB

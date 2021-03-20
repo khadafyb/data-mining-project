@@ -1,3 +1,7 @@
+#Hannibal Santiago
+#Khadafy Bilal
+#Data Minnig Project 1
+
 #imports
 import os
 import _pickle as pickle
