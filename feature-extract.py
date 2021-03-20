@@ -142,9 +142,17 @@ for subdir in filepaths: ##i is the subdirectories, the folders within the folde
 
                 ##I need to now sent in the bigger_list to the alldoc[]
                 alldocs.append(bigger_list)
-            #else:
-                ##Do the function of writing "Lines: XX" into the file, do this for last step
-            
+            else:
+                yes_lines=False
+                for line in file:
+                    if (line[0:5]=="Lines"):
+                        yes_lines=True
+
+                if (yes_lines==False):
+                    f.close()
+                    with open(path, 'w') as f:
+                          f.write("Lines: XX")
+                          f.close()
 #print(alldocs) #this works as it is meant to YES
 ######
 
